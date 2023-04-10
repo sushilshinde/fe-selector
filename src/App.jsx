@@ -3,10 +3,9 @@ import Form from './components/Form'
 import BarChart from './components/BarChart'
 
 function App() {
-  return <div className='flex flex-col'>
+  return <div className='grid grid-cols-1 lg:grid-cols-2'>
     <Form />
     <div className='flex justify-around mt-40'>
-      <BarChart />
       <BarChart />
     </div>
   </div>
