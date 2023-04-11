@@ -1,22 +1,34 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
-
+import { AppContext } from '../context';
 
 const options = ["Yes", "No"];
 
-export default function SelectInput({ question }) {
-    const [selected, setSelected] = useState("No");
+export default function SelectInput({ question, number }) {
+    const [selected, setSelected] = useState('No');
+    const { onSelectChange, graphModel } =  useContext(AppContext);
+
+    const onChange = (value) => {
+       setSelected(value);
+       onSelectChange(number, value)
+    }
+
+    useEffect(() => {
+        if(Object.values(graphModel).every(e => e === 0)) {
+            setSelected('No')
+        }
+    }, [graphModel])
 
     return (
         <div className="mb-5 flex justify-evenly">
             <label className="flex grow text-sm font-medium leading-6 text-gray-900">
-                {question}
+                {number}. {question}
             </label>
             <Listbox
                 value={selected}
-                onChange={setSelected}
+                onChange={onChange}
                 className="pl-3"
             >
                 <div className="relative mt-1">

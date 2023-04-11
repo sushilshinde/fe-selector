@@ -1,73 +1,62 @@
+import { useContext } from "react";
 import SelectInput from "./SelectInput";
-
-const questions = [
-    {
-        Question: "Are you trying to impliment SPA?",
-        React: 10,
-        Angular: 10,
-        Vue: 10,
-        NextJS: 0,
-        NuxtJS: 0,
-        Meteor: 0,
-        Express: 0,
-    },
-    {
-        Question: "Are you trying to impliment MPA?",
-        React: "",
-        Angular: "",
-        Vue: "",
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 10,
-    },
-    {
-        Question: "Do you need SEO?",
-        React: 2,
-        Angular: 2,
-        Vue: 2,
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 10,
-    },
-    {
-        Question: "Do you need Accessibility?",
-        React: 2,
-        Angular: 2,
-        Vue: 2,
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 10,
-    },
-    {
-        Question: "Do you need state managment?",
-        React: 2,
-        Angular: 2,
-        Vue: 2,
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 9,
-    },
-    {
-        Question: "Do you need PWA?",
-        React: 0,
-        Angular: 8,
-        Vue: 0,
-        NextJS: 5,
-        NuxtJS: 5,
-        Meteor: 5,
-        Express: 5,
-    },
-];
+import questions from "../models/data.json";
+import graphData from "../models/graphModel.json";
+import { AppContext } from "../context";
 
 export default function Form() {
+    const { selectedOptions, setGraphModel, resetGraphModel, resetSelectedOptions } =
+        useContext(AppContext);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const selectedOnes = selectedOptions
+        .filter((option) => option.value === "Yes")
+        .map((e) => e.Number);
+        
+        let newGraphModel = { ...graphData };
+        questions.forEach((question) => {
+            if (selectedOnes.includes(question.Number)) {
+                const { Number, Question, Feature, ...newObj } = question;
+                for (let key in newObj) {
+                    newGraphModel[key] += newObj[key];
+                }
+            }
+        });
+
+        setGraphModel(newGraphModel);
+    };
+
+    const resetForm = () => {
+        resetGraphModel()
+        resetSelectedOptions()
+    }
+
     return (
-        <div className="ml-20 mr-20">
-            <SelectInput question={questions[0].Question}/>
-            <SelectInput question={questions[1].Question}/>
-        </div>
+        <form className="ml-20 mr-20" onSubmit={handleSubmit}>
+            {questions.map((question) => (
+                <SelectInput
+                    question={question.Question}
+                    number={question.Number}
+                    key={question.Number}
+                />
+            ))}
+            <div className="flex justify-around">
+                <button
+                    type="submit"
+                    className="group relative flex w-4/12 justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Submit
+                </button>
+                <button
+                    type="reset"
+                    className="group relative flex w-4/12 justify-center rounded-md bg-[#FF0011] px-3 py-2 text-sm font-semibold text-white hover:bg-[#FF0033] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={resetForm}
+                >
+                    Reset
+                </button>
+            </div>
+        </form>
     );
 }
