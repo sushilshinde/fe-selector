@@ -1,164 +1,62 @@
+import { useContext } from "react";
 import SelectInput from "./SelectInput";
+import questions from "../models/data.json";
+import graphData from "../models/graphModel.json";
+import { AppContext } from "../context";
 
-const questions = [
-    {
-        Number: 1,
-        Feature: "SPA",
-        Question: "Are you trying to impliment SPA?",
-        React: 10,
-        Angular: 10,
-        Vue: 10,
-        NextJS: 0,
-        NuxtJS: 0,
-        Meteor: 0,
-        Express: 0,
-        Meteor__1: 5,
-        "Ember.js": 5,
-        Mithril: 5,
-        Polymer: 5,
-    },
-    {
-        Number: 2,
-        Feature: "MPA",
-        Question: "Are you trying to impliment MPA?",
-        React: 2,
-        Angular: 3,
-        Vue: 3,
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 10,
-        Meteor__1: 5,
-        "Ember.js": 5,
-        Mithril: 5,
-        Polymer: 5,
-    },
-    {
-        Number: 3,
-        Feature: "SEO",
-        Question: "Do you need SEO?",
-        React: 2,
-        Angular: 2,
-        Vue: 2,
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 10,
-        Meteor__1: 5,
-        "Ember.js": 5,
-        Mithril: 5,
-        Polymer: 5,
-    },
-    {
-        Number: 4,
-        Feature: "Accessibility",
-        Question: "Do you need Accessibility?",
-        React: 2,
-        Angular: 2,
-        Vue: 2,
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 10,
-        Meteor__1: 5,
-        "Ember.js": 5,
-        Mithril: 5,
-        Polymer: 5,
-    },
-    {
-        Number: 5,
-        Feature: "State",
-        Question: "Do you need state managment?",
-        React: 2,
-        Angular: 2,
-        Vue: 2,
-        NextJS: 10,
-        NuxtJS: 10,
-        Meteor: 10,
-        Express: 9,
-        Meteor__1: 5,
-        "Ember.js": 5,
-        Mithril: 5,
-        Polymer: 5,
-    },
-    {
-        Number: 6,
-        Feature: "PWA",
-        Question: "Do you need PWA?",
-        React: 0,
-        Angular: 8,
-        Vue: 0,
-        NextJS: 5,
-        NuxtJS: 5,
-        Meteor: 5,
-        Express: 5,
-        Meteor__1: 5,
-        "Ember.js": 5,
-        Mithril: 5,
-        Polymer: 5,
-    },
-    {
-        Number: 7,
-        Feature: "Rating",
-        Question: "Highest rating on Github?",
-        React: 9,
-        Angular: 8,
-        Vue: 6,
-        NextJS: 5,
-        NuxtJS: 3,
-        Meteor: 2,
-        Express: 3,
-        Meteor__1: 4,
-        "Ember.js": 4,
-        Mithril: 4,
-        Polymer: 4,
-    },
-    {
-        Number: 8,
-        Feature: "Desktop",
-        Question: "Will be used by desktop users?",
-        React: 8,
-        Angular: 8,
-        Vue: 8,
-        NextJS: 8,
-        NuxtJS: 8,
-        Meteor: 8,
-        Express: 8,
-        Meteor__1: 8,
-        "Ember.js": 8,
-        Mithril: 8,
-        Polymer: 8,
-    },
-    {
-        Number: 9,
-        Feature: "Mobile",
-        Question: "Will be used by mobile users?",
-        React: 8,
-        Angular: 8,
-        Vue: 8,
-        NextJS: 8,
-        NuxtJS: 8,
-        Meteor: 8,
-        Express: 8,
-        Meteor__1: 8,
-        "Ember.js": 8,
-        Mithril: 8,
-        Polymer: 8,
-    },
-];
-
-const handleSubmit = e => {
-    e.preventDefault()
-}
 export default function Form() {
+    const { selectedOptions, setGraphModel, resetGraphModel, resetSelectedOptions } =
+        useContext(AppContext);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const selectedOnes = selectedOptions
+        .filter((option) => option.value === "Yes")
+        .map((e) => e.Number);
+        
+        let newGraphModel = { ...graphData };
+        questions.forEach((question) => {
+            if (selectedOnes.includes(question.Number)) {
+                const { Number, Question, Feature, ...newObj } = question;
+                for (let key in newObj) {
+                    newGraphModel[key] += newObj[key];
+                }
+            }
+        });
+
+        setGraphModel(newGraphModel);
+    };
+
+    const resetForm = () => {
+        resetGraphModel()
+        resetSelectedOptions()
+    }
+
     return (
         <form className="ml-20 mr-20" onSubmit={handleSubmit}>
             {questions.map((question) => (
-                <SelectInput question={question.Question} />
+                <SelectInput
+                    question={question.Question}
+                    number={question.Number}
+                    key={question.Number}
+                />
             ))}
-            <button type="submit" class="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Submit
-            </button>
+            <div className="flex justify-around">
+                <button
+                    type="submit"
+                    className="group relative flex w-4/12 justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Submit
+                </button>
+                <button
+                    type="reset"
+                    className="group relative flex w-4/12 justify-center rounded-md bg-[#FF0011] px-3 py-2 text-sm font-semibold text-white hover:bg-[#FF0033] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={resetForm}
+                >
+                    Reset
+                </button>
+            </div>
         </form>
     );
 }
