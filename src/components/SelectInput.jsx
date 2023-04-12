@@ -22,8 +22,8 @@ export default function SelectInput({ question, number }) {
     }, [graphModel])
 
     return (
-        <div className="mb-5 flex justify-evenly">
-            <label className="flex grow text-sm font-medium leading-6 text-gray-900">
+        <div className={`${number % 2 !== 0 ? 'bg-[#F8FAFC]' : 'bg-[#FFFFFF]'} flex justify-evenly pt-3 pb-3 pl-5 pr-5`}>
+            <label className="flex grow text-sm font-medium leading-6 text-gray-900 align-middle">
                 {number}. {question}
             </label>
             <Listbox
@@ -31,7 +31,7 @@ export default function SelectInput({ question, number }) {
                 onChange={onChange}
                 className="pl-3"
             >
-                <div className="relative mt-1">
+                <div className="relative">
                     <Listbox.Button className="relative cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                         <span className="truncate">{selected}</span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

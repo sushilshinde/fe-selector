@@ -1,6 +1,11 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: .5px;
+}
+
+button {
+  letter-spacing: 2px;
+  font-weight: lighter !important;
 }
