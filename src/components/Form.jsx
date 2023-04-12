@@ -34,7 +34,7 @@ export default function Form() {
     }
 
     return (
-        <form className="ml-20 mr-20" onSubmit={handleSubmit}>
+        <form className="border border-[#D6F1FD]" onSubmit={handleSubmit}>
             {questions.map((question) => (
                 <SelectInput
                     question={question.Question}
@@ -42,16 +42,16 @@ export default function Form() {
                     key={question.Number}
                 />
             ))}
-            <div className="flex justify-around">
+            <div className="flex justify-around mt-7 mb-7">
                 <button
                     type="submit"
-                    className="group relative flex w-4/12 justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="hover:transition-all group relative flex w-4/12 justify-center rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Submit
+                    Recommend
                 </button>
                 <button
                     type="reset"
-                    className="group relative flex w-4/12 justify-center rounded-md bg-[#FF0011] px-3 py-2 text-sm font-semibold text-white hover:bg-[#FF0033] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="hover:transition-all group relative flex w-4/12 justify-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-white hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     onClick={resetForm}
                 >
                     Reset
