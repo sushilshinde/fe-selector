@@ -9,9 +9,10 @@ const selectedData = questions.map((question) => {
 const AppContext = React.createContext();
 const DataContext = ({ children }) => {
     const [selectedOptions, setSelectedOptions] = useState(selectedData);
-    const [graphModel, setGraphModel] = useState({ ...graphData });
+    const [graphModel, setGraphModel] = useState([]);
+    const [loading, setLoading] = useState(false)
 
-    const resetGraphModel = () => setGraphModel(graphData);
+    const resetGraphModel = () => setGraphModel([]);
 
     const resetSelectedOptions = () => {
         setSelectedOptions(
@@ -40,6 +41,8 @@ const DataContext = ({ children }) => {
                 onSelectChange,
                 setGraphModel,
                 resetGraphModel,
+                loading,
+                setLoading
             }}
         >
             {children}

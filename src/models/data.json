@@ -3,108 +3,53 @@
      "Number": 1,
      "Feature": "SPA",
      "Question": "Are you trying to impliment SPA?",
-     "React": 10,
-     "Angular": 10,
-     "Vue": 10,
-     "AU": 0,
-     "NextJS": 0,
-     "NuxtJS": 0,
-     "Express": 0
+     "gptPrompt": "Need a single-page application"
    },
    {
      "Number": 2,
      "Feature": "MPA",
      "Question": "Are you trying to impliment MPA?",
-     "React": 0,
-     "Angular": 0,
-     "Vue": 0,
-     "AU": 10,
-     "NextJS": 10,
-     "NuxtJS": 10,
-     "Express": 10
+     "gptPrompt": "Need a multi-page application"
    },
    {
      "Number": 3,
      "Feature": "SEO",
      "Question": "Do you need SEO?",
-     "React": 0,
-     "Angular": 0,
-     "Vue": 0,
-     "AU": 7,
-     "NextJS": 8,
-     "NuxtJS": 9,
-     "Express": 6
+     "gptPrompt": "Need Search Engine Optimization"
    },
    {
      "Number": 4,
      "Feature": "Accessibility",
-     "Question": "Do you need Accessibility?",
-     "React": 0,
-     "Angular": 0,
-     "Vue": 0,
-     "AU": 6,
-     "NextJS": 8,
-     "NuxtJS": 9,
-     "Express": 5
+     "Question": "Do you need Accessibility?"
    },
    {
      "Number": 5,
-     "Feature": "State",
+     "Feature": "State Management",
      "Question": "Do you need state managment?",
-     "React": 2,
-     "Angular": 2,
-     "Vue": 2,
-     "AU": 10,
-     "NextJS": 10,
-     "NuxtJS": 10,
-     "Express": 9
+     "gptPrompt": "Need State Management"
    },
    {
      "Number": 6,
      "Feature": "PWA",
      "Question": "Do you need PWA?",
-     "React": 7,
-     "Angular": 8,
-     "Vue": 8,
-     "AU": 0,
-     "NextJS": 0,
-     "NuxtJS": 0,
-     "Express": 0
+     "gptPrompt":"Need Progressive Web App"
    },
    {
      "Number": 7,
-     "Feature": "Rating",
+     "Feature": "Highest Rating on Github",
      "Question": "Highest rating on Github?",
-     "React": 8,
-     "Angular": 5,
-     "Vue": 9,
-     "AU": 5,
-     "NextJS": 5,
-     "NuxtJS": 3,
-     "Express": 3
+     "gptPrompt":"Need Highest Rating on Github"
    },
    {
      "Number": 8,
-     "Feature": "Desktop",
+     "Feature": "Desktop Users",
      "Question": "Will be used by desktop users?",
-     "React": 6,
-     "Angular": 6,
-     "Vue": 6,
-     "AU": 8,
-     "NextJS": 8,
-     "NuxtJS": 8,
-     "Express": 8
+     "gptPrompt":"Will be used by desktop users"
    },
    {
      "Number": 9,
-     "Feature": "Mobile",
+     "Feature": "Mobile Users",
      "Question": "Will be used by mobile users?",
-     "React": 8,
-     "Angular": 8,
-     "Vue": 8,
-     "AU": 6,
-     "NextJS": 6,
-     "NuxtJS": 8,
-     "Express": 8
+     "gptPrompt": "Will be used by mobile users?"
    }
  ]

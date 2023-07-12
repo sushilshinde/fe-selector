@@ -1,9 +1,12 @@
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import Form from './components/Form'
 import BarChart from './components/BarChart'
 
 function App() {
   return <>
+  <ToastContainer />
   <div className="w-full bg-[#38BDF8] text-white pt-3 pb-3 font-semibold">
     Framework Recommender 
   </div>

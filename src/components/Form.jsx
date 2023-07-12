@@ -3,29 +3,56 @@ import SelectInput from "./SelectInput";
 import questions from "../models/data.json";
 import graphData from "../models/graphModel.json";
 import { AppContext } from "../context";
+import { toast } from "react-toastify";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function Form() {
-    const { selectedOptions, setGraphModel, resetGraphModel, resetSelectedOptions } =
+    const { selectedOptions, setGraphModel, resetGraphModel, resetSelectedOptions, setLoading } =
         useContext(AppContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        toast.info('Please wait while we load your data...')
+
+        console.log(selectedOptions)
 
         const selectedOnes = selectedOptions
         .filter((option) => option.value === "Yes")
         .map((e) => e.Number);
-        
-        let newGraphModel = { ...graphData };
+
+        let question_list = [];
         questions.forEach((question) => {
-            if (selectedOnes.includes(question.Number)) {
-                const { Number, Question, Feature, ...newObj } = question;
-                for (let key in newObj) {
-                    newGraphModel[key] += newObj[key];
+                if (selectedOnes.includes(question.Number)) {
+                    question_list.push(question_list.length + 1 + '. '+question.gptPrompt)
                 }
-            }
         });
 
-        setGraphModel(newGraphModel);
+        console.log(question_list.join('\n'))
+
+        setLoading(true)
+        fetch(API_BASE_URL + "/openai/rec", {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                criteria: question_list.join('\n')
+            })
+        }).then(res => res.json())
+        .then(res => {
+            console.log(res)
+            setGraphModel(res.matches);
+            setLoading(false)
+            })
+            .catch(err => {
+                // setGraphModel([]);
+                toast.error('Sorry something went wrong! Try Again!')
+                setLoading(false)
+                resetForm()
+                // console.log(err)
+            })
+
     };
 
     const resetForm = () => {
