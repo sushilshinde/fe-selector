@@ -20,7 +20,8 @@
    {
      "Number": 4,
      "Feature": "Accessibility",
-     "Question": "Do you need Accessibility?"
+     "Question": "Do you need Accessibility?",
+     "gptPrompt": "Need Accesibility"
    },
    {
      "Number": 5,
@@ -50,6 +51,6 @@
      "Number": 9,
      "Feature": "Mobile Users",
      "Question": "Will be used by mobile users?",
-     "gptPrompt": "Will be used by mobile users?"
+     "gptPrompt": "Will be used by mobile users"
    }
  ]

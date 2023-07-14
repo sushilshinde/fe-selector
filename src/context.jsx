@@ -8,39 +8,33 @@ const selectedData = questions.map((question) => {
 
 const AppContext = React.createContext();
 const DataContext = ({ children }) => {
-    const [selectedOptions, setSelectedOptions] = useState(selectedData);
-    const [graphModel, setGraphModel] = useState([]);
+    const [{ graphModel, selectedOptions }, setChartData] = useState({ graphModel: [], selectedOptions: selectedData })
     const [loading, setLoading] = useState(false)
 
-    const resetGraphModel = () => setGraphModel([]);
+    const reset = () => setChartData({ graphModel: [], selectedOptions: selectedData.map((question) => {
+        return { Number: question.Number, value: "No" };
+    }) })
 
-    const resetSelectedOptions = () => {
-        setSelectedOptions(
-            questions.map((question) => {
-                return { Number: question.Number, value: "No" };
-            })
-        );
-    };
 
     const onSelectChange = (Number, optionSelected) => {
+        console.log(selectedOptions)
         let optionChanged = selectedOptions.map((option) => {
             if (option.Number === Number) {
                 option.value = optionSelected;
             }
             return option;
         });
-        setSelectedOptions(optionChanged);
+        setChartData({ graphModel, selectedOptions: optionChanged })
     };
 
     return (
         <AppContext.Provider
             value={{
                 selectedOptions,
-                resetSelectedOptions,
+                reset,
                 graphModel,
                 onSelectChange,
-                setGraphModel,
-                resetGraphModel,
+                setChartData,
                 loading,
                 setLoading
             }}

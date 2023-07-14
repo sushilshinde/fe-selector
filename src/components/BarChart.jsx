@@ -7,18 +7,6 @@ import Loader from "./Loader";
 
 function BarChart() {
     const { graphModel, loading } = useContext(AppContext);
-    const [data, setData] = useState([]);
-    const [labels, setLabels] = useState([]);
-
-    useEffect(() => {
-        console.log(graphModel)
-        graphModel?.map(el => {
-            console.log(el.percent_match)
-        })
-        setLabels(graphModel?.map(el => el.name))
-        setData(graphModel?.map(el => el.percent_match.split('%')[0]))
-        console.log(data)
-    }, [graphModel]);
 
     return (
         <div className="w-full">
@@ -31,11 +19,11 @@ function BarChart() {
                             width={'100%'}
                             height={'80%'}
                             data={{
-                                labels,
+                                labels: graphModel?.map(el => el.name),
                                 datasets: [
                                     {
                                         label: "",
-                                        data,
+                                        data: graphModel?.map(el => el.percent_match.split('%')[0]),
                                         borderRadius: 5,
                                         backgroundColor: [
                                             "rgba(255, 99, 132, 0.2)",
@@ -65,12 +53,16 @@ function BarChart() {
                                     tooltip: {
                                         callbacks: {
                                             label: function () {
-                                                return this.dataPoints[0].raw + '%'
+                                                return `${graphModel[this.dataPoints[0].dataIndex].reasons.join('\n')}`
+                                            },
+                                            title: function () {
+                                                return graphModel[this.dataPoints[0].dataIndex].name
+                                            },
+                                            footer: function () {
+                                                return graphModel[this.dataPoints[0].dataIndex].website_url
                                             }
+                                            
                                         }
-                                    },
-                                    legend: {
-                                        position: 'top',
                                     },
                                     colors: false,
                                 },

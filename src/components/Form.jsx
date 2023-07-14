@@ -4,14 +4,15 @@ import questions from "../models/data.json";
 import graphData from "../models/graphModel.json";
 import { AppContext } from "../context";
 import { toast } from "react-toastify";
+import { generateOpenAIResponse } from "../services";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function Form() {
-    const { selectedOptions, setGraphModel, resetGraphModel, resetSelectedOptions, setLoading } =
+    const { selectedOptions, setChartData, reset, setLoading } =
         useContext(AppContext);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         toast.info('Please wait while we load your data...')
 
@@ -31,34 +32,20 @@ export default function Form() {
         console.log(question_list.join('\n'))
 
         setLoading(true)
-        fetch(API_BASE_URL + "/openai/rec", {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                criteria: question_list.join('\n')
-            })
-        }).then(res => res.json())
-        .then(res => {
-            console.log(res)
-            setGraphModel(res.matches);
+
+        try {
+            const response = await generateOpenAIResponse(API_BASE_URL, question_list)
+            console.log(response)
+            setChartData({ graphModel: response, selectedOptions });
             setLoading(false)
-            })
-            .catch(err => {
-                // setGraphModel([]);
-                toast.error('Sorry something went wrong! Try Again!')
-                setLoading(false)
-                resetForm()
-                // console.log(err)
-            })
+        } catch (error) {
+            setLoading(false)
+            toast.dismiss()
+            toast.error('Sorry something went wrong! Try Again!')
+            reset()
+        }
 
     };
-
-    const resetForm = () => {
-        resetGraphModel()
-        resetSelectedOptions()
-    }
 
     return (
         <form className="border border-[#D6F1FD]" onSubmit={handleSubmit}>
@@ -79,7 +66,7 @@ export default function Form() {
                 <button
                     type="reset"
                     className="hover:transition-all group relative flex w-4/12 justify-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-white hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={resetForm}
+                    onClick={() => reset()}
                 >
                     Reset
                 </button>
